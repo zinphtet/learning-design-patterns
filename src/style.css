@@ -1,0 +1,23 @@
+
+
+* {
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+
+#app {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+h2 {
+  font-size: 60px;
+  background : linear-gradient(to right , blue , red , orange);
+  -webkit-background-clip: text;
+  color: transparent;
+}
