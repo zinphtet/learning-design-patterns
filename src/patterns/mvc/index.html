@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MVC Pattern</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .photo-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .photo {
+        width: 300px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        box-sizing: border-box;
+        position: relative;
+      }
+
+      .photo img {
+        width: 100%;
+        height: auto;
+      }
+
+      .caption {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>MVC Patterns</h1>
+    <div id="gallery" class="photo-container"></div>
+
+    <script>
+      // Photo Model
+      class PhotoModel {
+        constructor(caption, src) {
+          this.caption = caption;
+          this.src = src;
+        }
+        getCaption() {
+          return this.caption;
+        }
+        getSrc() {
+          return this.src;
+        }
+      }
+
+      const model = new PhotoModel("hello", "src");
+      console.log("model ", model);
+
+      //   view
+      class PhotoView {
+        constructor(Model) {
+          this.photoModel = Model;
+          this.photoEl = document.createElement("div");
+          this.photoEl.classList.add("photo");
+        }
+        getElement() {
+          return this.photoEl;
+        }
+        render() {
+          const caption = this.photoModel.getCaption();
+          const src = this.photoModel.getSrc();
+
+          this.photoEl.innerHTML = `
+                    <img src="${src}" alt="${caption}">
+                    <div class="caption">${caption}</div>
+             `;
+        }
+      }
+      //   conroller
+
+      class PhotoController {
+        constructor(model, view) {
+          this.photoModel = model;
+          this.photoView = view;
+        }
+        render() {
+          this.photoView.render();
+          return this.photoView.getElement();
+        }
+      }
+      //   data
+      const photoData = [
+        {
+          caption: "Sample Photo 1",
+          src: "https://via.placeholder.com/300x200?text=Sample+Photo+1",
+        },
+        {
+          caption: "Sample Photo 2",
+          src: "https://via.placeholder.com/300x200?text=Sample+Photo+2",
+        },
+        {
+          caption: "Sample Photo 3",
+          src: "https://via.placeholder.com/300x200?text=Sample+Photo+3",
+        },
+      ];
+
+      const Gallery = document.getElementById("gallery");
+      photoData.forEach((data) => {
+        const model = new PhotoModel(data.caption, data.src);
+        const view = new PhotoView(model);
+        const controller = new PhotoController(model, view);
+        const el = controller.render();
+        Gallery.appendChild(el);
+      });
+    </script>
+  </body>
+</html>
